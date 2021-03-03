@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="./src/job.css">
+
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+
+    <script>
+        const value = `; ${document.cookie}`;
+        const parts = value.split(`; auth_token=`);
+        if (parts.length === 2) {
+            token = parts.pop().split(';').shift();
+        }
+        console.log('asdasd', token);
+        $.ajax({
+            url: "https://zeyad-job-board-api.herokuapp.com/jobs",
+            type: 'GET',
+            headers: {
+                "Authorization": 'Bearer ' + token
+            },
+            success: function (data) {
+                console.log(data);
+                var list_html = "<ol>";
+                for (var i = 0; i < data.length; i++) {
+                    list_html += `<li id= '${data[i].id}'>${data[i].title} : ${data[i].description}</li>`;
+                }
+                list_html += "</ol>"
+                $("#playlist").html(list_html);
+            },
+            error: function (ajaxContext) {
+                window.location.href = './';
+            }
+        });
+    </script>
+</head>
+
+<body>
+    <h1>Hello Job Seeker</h1>
+    <h2>click on any job you want to apply</h1>
+    <div id="playlist">
+    </div>
+    <script>
+        window.addEventListener("load", function () {
+            document.getElementById("playlist").addEventListener("click", function (e) {
+                $.ajax({
+                    url: `https://zeyad-job-board-api.herokuapp.com/jobs/${e.target.id}/applications`,
+                    type: 'POST',
+                    headers: {
+                        "Authorization": 'Bearer ' + token
+                    },
+                    success: function (data) {
+                        alert(`you applied successfully to ${e.target.innerText.substr(0,e.target.innerText.indexOf(':'))}`);
+                    },
+                    error: function (err) {
+                        alert(err.responseJSON.message);
+                    }
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
