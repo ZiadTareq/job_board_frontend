@@ -36,11 +36,11 @@ body {
     display: none;
 }
 
-.form > *:first-child {
+.form>*:first-child {
     margin-top: 0;
 }
 
-.form > *:last-child {
+.form>*:last-child {
     margin-bottom: 0;
 }
 

@@ -42,27 +42,28 @@
 <body>
     <h1>Hello Job Seeker</h1>
     <h2>click on any job you want to apply</h1>
-    <div id="playlist">
-    </div>
-    <script>
-        window.addEventListener("load", function () {
-            document.getElementById("playlist").addEventListener("click", function (e) {
-                $.ajax({
-                    url: `https://zeyad-job-board-api.herokuapp.com/jobs/${e.target.id}/applications`,
-                    type: 'POST',
-                    headers: {
-                        "Authorization": 'Bearer ' + token
-                    },
-                    success: function (data) {
-                        alert(`you applied successfully to ${e.target.innerText.substr(0,e.target.innerText.indexOf(':'))}`);
-                    },
-                    error: function (err) {
-                        alert(err.responseJSON.message);
-                    }
+        <div id="playlist">
+        </div>
+        <script>
+            window.addEventListener("load", function () {
+                document.getElementById("playlist").addEventListener("click", function (e) {
+                    $.ajax({
+                        url: `https://zeyad-job-board-api.herokuapp.com/jobs/${e.target.id}/applications`,
+                        type: 'POST',
+                        headers: {
+                            "Authorization": 'Bearer ' + token
+                        },
+                        success: function (data) {
+                            alert(
+                                `you applied successfully to ${e.target.innerText.substr(0,e.target.innerText.indexOf(':'))}`);
+                        },
+                        error: function (err) {
+                            alert(err.responseJSON.message);
+                        }
+                    });
                 });
             });
-        });
-    </script>
+        </script>
 </body>
 
 </html>
